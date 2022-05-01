@@ -1,0 +1,31 @@
+---
+import Config from "../config.cjs";
+import BaseHead from '../components/partials/header.astro';
+import BaseFooter from '../components/partials/footer.astro';
+
+import '../styles/bootstrap.css';
+import '../styles/custom.css';
+
+export interface Props {
+  lang?: string;
+	title: string;
+}
+
+const { lang, title } = Astro.props as Props;
+
+---
+
+<html lang={ lang || Config.siteLanguage }>
+  <head>
+    <BaseHead title={title} />
+  </head>
+
+  <body>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer mt-5">
+      <BaseFooter />
+    </footer>
+  </body>
+</html>

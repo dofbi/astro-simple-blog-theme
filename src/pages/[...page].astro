@@ -1,0 +1,22 @@
+---
+import Config from '../config.cjs';
+import Layout from '../layouts/index.astro';
+import List from '../components/List.astro';
+
+export async function getStaticPaths({ paginate }) {
+  let allPosts = await Astro.glob('./posts/*.md');
+  allPosts = allPosts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+  
+    return paginate(allPosts, {
+      pageSize: Config.paginate,
+    })
+}
+
+const title = 'Astro Themes';
+const { page } = Astro.props;
+
+---
+
+<Layout title={title} lang="en">
+  <List title={title} posts={page.data} page={page} />
+</Layout>

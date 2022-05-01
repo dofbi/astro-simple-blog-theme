@@ -1,0 +1,31 @@
+---
+import Config from '../../../config.cjs';
+import Layout from '../../../layouts/index.astro';
+import List from '../../../components/List.astro';
+
+export async function getStaticPaths({paginate}) {
+  let allPosts = await Astro.glob('../../posts/*.md');
+  allPosts = allPosts.sort((a, b) => new Date(a.frontmatter.date).valueOf() - new Date(b.frontmatter.date).valueOf());
+  
+  const allTags = new Set()
+  allPosts.map(post => {
+      post.frontmatter.tags && post.frontmatter.tags.map(tag => allTags.add(tag.toLowerCase()))
+  })
+
+  return Array.from(allTags).map((tag) => {
+    const filteredPosts = allPosts.filter((post) => post.frontmatter.tags && post.frontmatter.tags.includes(tag))
+    return paginate(filteredPosts, {
+      params: { tag },
+      pageSize: Config.paginate,
+    });
+  });
+}
+
+const { page } = Astro.props
+const { tag } = Astro.params;
+const title = `${tag}`;
+---
+
+<Layout title={title} lang="en">
+  <List title={title} posts={page.data} page={page} url={`tag/${tag}/`} />
+</Layout>
