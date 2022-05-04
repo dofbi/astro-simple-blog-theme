@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/13421fcf-e03c-4f6a-9ad1-1aa1ec13e0ba/deploy-status)](https://app.netlify.com/sites/astro-simple-blog/deploys)
+
 # Astro Simple blog theme
 
 simple blog is a simple blog theme for [Astro](https://docs.astro.build).
