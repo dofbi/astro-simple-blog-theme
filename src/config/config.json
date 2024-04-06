@@ -1,0 +1,20 @@
+{
+  "site": {
+    "baseUrl": "/",
+    "language": "en",
+    "title": "Astro Themes",
+    "description": "<your site description>",
+    "copyright": "© 2024 copyright text."
+  },
+  "memus":[
+    {
+      "identifier": "about",
+      "name": "About",
+      "url": "/about/"
+    }
+  ],
+  "settings": {
+    "pagination": 6,
+    "blog_folder": "posts"
+  }
+}
