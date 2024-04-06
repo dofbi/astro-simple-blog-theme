@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import config from "@config/config.json";
 import BaseHead from "@components/partials/header.astro";
 import BaseFooter from "@components/partials/footer.astro";
@@ -13,7 +14,7 @@ export interface Props {
 const { lang, title } = Astro.props as Props;
 ---
 
-<html lang={lang || config.site.siteLanguage }>
+<html lang={lang || config.site.language}>
   <head>
     <BaseHead title={title} />
     <link
@@ -22,6 +23,7 @@ const { lang, title } = Astro.props as Props;
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
+    <ViewTransitions />
   </head>
 
   <body>
@@ -29,7 +31,7 @@ const { lang, title } = Astro.props as Props;
       <slot />
     </main>
     <footer class="site-footer mt-5">
-      <BaseFooter />
+      <BaseFooter transition:persist />
     </footer>
   </body>
 </html>
