@@ -1,6 +1,6 @@
 ---
 title: "About"
-date: 2022-04-29T06:51:00Z
+date: 2024-04-06T06:51:00Z
 slug: "about"
 description: "simple blog is a simple blog theme for Astro. It is a fork of the simple blog theme for Hugo."
 layout: "../layouts/PostLayout.astro"
@@ -20,7 +20,7 @@ This theme is built upon a theme called [simple-blog](https://github.com/10mohi6
 
 ## Features
 
-- based on [bootstrap](https://getbootstrap.com/)
+- content
 - pagination
 - tags
 - categories
@@ -43,29 +43,26 @@ Feel free to check [our documentation](https://github.com/withastro/astro) or ju
 ## Site Configuration
 
 ```json
-  // src/config.cjs
-  // Web site base url
-  siteBaseUrl: '/',
-  // Web site language
-  siteLanguage: "en",
-  //Web site title. It is visible in sidebar and browser
-  siteTitle: "Astro Themes",
-  //Web site desciption. It is visible in sidebar. Also added head meta data.
-  siteDescription: "<your site description>",
-  //Override footer text.
-  siteCopyright: "© 2020 copyright text.",
-  //Site global date format. [dayjs](https://day.js.org/docs/en/display/format)
-  dateFormat: "MMMM D, YYYY",
-  // Pagination number of posts per page
-  paginate: 6,
-  //Customize the menu
-  memus:[
+{
+  "site": {
+    "baseUrl": "/",
+    "language": "en",
+    "title": "Astro Themes",
+    "description": "<your site description>",
+    "copyright": "© 2024 copyright text."
+  },
+  "memus":[
     {
-      identifier: "about",
-      name: "About",
-      url: "/about/",
+      "identifier": "about",
+      "name": "About",
+      "url": "/about/"
     }
   ],
+  "settings": {
+    "pagination": 6,
+    "blog_folder": "posts"
+  }
+}
 ```
 
 ## Support

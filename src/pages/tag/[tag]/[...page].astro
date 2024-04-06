@@ -1,31 +1,32 @@
 ---
-import Config from '../../../config.cjs';
-import Layout from '../../../layouts/index.astro';
-import List from '../../../components/List.astro';
+import config from "@config/config.json";
+import Layout from "@layouts/index.astro";
+import List from "@components/List.astro";
+import { getContent } from "@lib/contentParser.astro";
+import { getTags } from "@lib/tagsParser.astro";
+import { sortByDate } from "@lib/utils/sortFunctions";
 
-export async function getStaticPaths({paginate}) {
-  let allPosts = await Astro.glob('../../posts/*.md');
-  allPosts = allPosts.sort((a, b) => new Date(a.frontmatter.date).valueOf() - new Date(b.frontmatter.date).valueOf());
-  
-  const allTags = new Set()
-  allPosts.map(post => {
-      post.frontmatter.tags && post.frontmatter.tags.map(tag => allTags.add(tag.toLowerCase()))
-  })
+export async function getStaticPaths({ paginate }) {
+  const allTags = await getTags(config.settings.blog_folder);
+  let allPosts = await getContent(config.settings.blog_folder);
 
-  return Array.from(allTags).map((tag) => {
-    const filteredPosts = allPosts.filter((post) => post.frontmatter.tags && post.frontmatter.tags.includes(tag))
+  allPosts = sortByDate(allPosts);
+
+  return Array.from(allTags).flatMap((tag) => {
+    const filteredPosts = allPosts.filter(
+      (post: any) => post.data.tags && post.data.tags.includes(tag)
+    );
     return paginate(filteredPosts, {
       params: { tag },
-      pageSize: Config.paginate,
+      pageSize: config.settings.pagination,
     });
   });
 }
 
-const { page } = Astro.props
+const { page } = Astro.props;
 const { tag } = Astro.params;
-const title = `${tag}`;
 ---
 
-<Layout title={title} lang="en">
-  <List title={title} posts={page.data} page={page} url={`tag/${tag}/`} />
+<Layout title={tag}>
+  <List title={tag} page={page} page={page} url={`tag/${tag}/`} />
 </Layout>

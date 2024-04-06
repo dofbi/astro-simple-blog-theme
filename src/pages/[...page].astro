@@ -1,22 +1,23 @@
 ---
-import Config from '../config.cjs';
-import Layout from '../layouts/index.astro';
-import List from '../components/List.astro';
+import config from "@config/config.json";
+import Layout from "@layouts/index.astro";
+import List from "@components/List.astro";
+import { getContent } from "@lib/contentParser.astro";
+import { sortByDate } from "@lib/utils/sortFunctions";
 
 export async function getStaticPaths({ paginate }) {
-  let allPosts = await Astro.glob('./posts/*.md');
-  allPosts = allPosts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
-  
-    return paginate(allPosts, {
-      pageSize: Config.paginate,
-    })
+  let allPosts = await getContent(config.settings.blog_folder);
+  allPosts = sortByDate(allPosts);
+
+  return paginate(allPosts, {
+    pageSize: config.settings.pagination,
+  });
 }
 
-const title = 'Astro Themes';
+const title = "Astro Themes";
 const { page } = Astro.props;
-
 ---
 
-<Layout title={title} lang="en">
-  <List title={title} posts={page.data} page={page} />
+<Layout title={title}>
+  <List title={title} page={page} />
 </Layout>

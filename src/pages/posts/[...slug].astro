@@ -1,0 +1,17 @@
+---
+import config from "@config/config.json";
+import { getContent } from "@lib/contentParser.astro";
+
+export async function getStaticPaths() {
+  const posts = await getContent(config.settings.blog_folder);
+  const paths = posts.map((entry: any) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+  return paths;
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Content />
