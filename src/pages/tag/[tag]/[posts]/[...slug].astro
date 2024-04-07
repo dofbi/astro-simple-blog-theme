@@ -1,0 +1,28 @@
+---
+import config from "@config/config.json";
+import { getContent } from "@lib/contentParser.astro";
+import { getTags } from "@lib/tagsParser.astro";
+
+export async function getStaticPaths() {
+  const allTags = await getTags(config.settings.blog_folder);
+  const allposts = await getContent(config.settings.blog_folder);
+
+  const paths = allTags.flatMap((tag) => {
+    const filteredPosts = allposts.filter(
+      (posts: any) =>
+        posts.data.tags && posts.data.tags.includes(tag)
+    );
+
+    return filteredPosts.map((entry: any) => ({
+      params: { tag: tag, posts: entry.slug },
+      props: { entry },
+    }));
+  });
+
+  return paths;
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Content />
