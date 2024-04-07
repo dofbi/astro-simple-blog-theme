@@ -21,7 +21,7 @@ const { title, page, url } = Astro.props;
 <div class="bg-skew bg-skew-light">
   <div class="container py-4">
     <div class="row" transition:name="list" transition:animate="slide">
-      {page?.data.map((post) => <Card post={post} />)}
+      {page?.data.map((post) => <Card post={post} url={url} />)}
     </div>
     <Pagination page={page} url={url} />
   </div>

@@ -4,9 +4,10 @@ import { dateFormat } from "@lib/utils/dateFormat";
 
 export interface Props {
   post: any;
+  url?: string;
 }
 
-const { post } = Astro.props;
+const { post, url } = Astro.props;
 ---
 
 <div class="col-lg-6">
@@ -16,7 +17,7 @@ const { post } = Astro.props;
         post.data.categories &&
           post.data.categories.map((categorie: any) => (
             <a
-              href={`${config.site.baseUrl}categorie/${categorie}/`}
+              href={`${config.site.baseUrl}${url}`}
               class="d-inline-block link-cta mb-4 text-uppercase"
             >
               {categorie}
@@ -26,15 +27,12 @@ const { post } = Astro.props;
       <h2 class="card-title mb-4">
         <a
           class="stretched-link"
-          href={`${config.site.baseUrl}posts/${post.data.slug}`}
+          href={`${config.site.baseUrl}${url}${post.data.slug}`}
           >{post.data.title}</a
         >
       </h2>
       <p class="small">
-        <span class="text-uppercase"
-          >{
-            dateFormat(post.data.date)
-          }</span>
+        <span class="text-uppercase">{dateFormat(post.data.date)}</span>
       </p>
       <p class="card-text">{post.data.description}</p>
       <p>
