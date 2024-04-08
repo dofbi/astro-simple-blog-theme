@@ -4,7 +4,8 @@ import { dateFormat } from "@lib/utils/dateFormat";
 import Layout from "./index.astro";
 
 const { frontmatter } = Astro.props;
-const { title, date, categories, tags } = frontmatter;
+const { title, date, categories, tags } = frontmatter.data;
+const { slugPrevious, slugNext } = frontmatter;
 ---
 
 <Layout title={title}>
@@ -34,7 +35,7 @@ const { title, date, categories, tags } = frontmatter;
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <article class="pb-2">
-            <slot/>
+            <slot />
             <p class="mt-5 text-center">
               {tags && <span class="text-secondary">Tagged: </span>}
               {
@@ -52,15 +53,23 @@ const { title, date, categories, tags } = frontmatter;
           </article>
           <div class="row pt-5 pb-5">
             <div class="col-6 text-left">
-              <!-- {{ with .PrevInSection }}
-                  <a class="text-reset" href="{{ .Permalink }}">&larr; {{ .Title }}</a>
-                {{ end }}
-                </div>
-                <div class="col-6 text-right">
-                {{ with .NextInSection }}
-                  <a class="text-reset" href="{{ .Permalink }}">{{ .Title }} &rarr;</a>
-                {{ end }} -->
+              {
+                slugPrevious && (
+                  <a class="text-reset" href={slugPrevious.slug}>
+                    &larr; {slugPrevious.title}
+                  </a>
+                )
+              }
             </div>
+            <di class="col-6 text-right">
+              {
+                slugNext && (
+                  <a class="text-reset" href={slugNext.slug}>
+                    {slugNext.title} &rarr;
+                  </a>
+                )
+              }
+            </di>
           </div>
         </div>
       </div>
