@@ -3,7 +3,7 @@ title: "About"
 date: 2024-04-06T06:51:00Z
 slug: "about"
 description: "simple blog is a simple blog theme for Astro. It is a fork of the simple blog theme for Hugo."
-layout: "../layouts/PostLayout.astro"
+layout: "../layouts/AboutLayout.astro"
 ---
 
 # Astro Simple blog theme

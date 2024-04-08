@@ -2,6 +2,8 @@
 import config from "@config/config.json";
 import { getContent } from "@lib/contentParser.astro";
 import { getTags } from "@lib/tagsParser.astro";
+import { addAdjacentSlugs } from "@lib/utils/addAdjacentSlugs";
+import MarkdownPostLayout from "../../../../layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
   const allTags = await getTags(config.settings.blog_folder);
@@ -9,11 +11,12 @@ export async function getStaticPaths() {
 
   const paths = allTags.flatMap((tag) => {
     const filteredPosts = allposts.filter(
-      (posts: any) =>
-        posts.data.tags && posts.data.tags.includes(tag)
+      (posts: any) => posts.data.tags && posts.data.tags.includes(tag)
     );
 
-    return filteredPosts.map((entry: any) => ({
+    const postsWithAdjacentSlugs = addAdjacentSlugs(filteredPosts, `/tag/${tag}`);
+
+    return postsWithAdjacentSlugs.map((entry: any) => ({
       params: { tag: tag, posts: entry.slug },
       props: { entry },
     }));
@@ -25,4 +28,6 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<Content />
+<MarkdownPostLayout frontmatter={entry}>
+  <Content />
+</MarkdownPostLayout>

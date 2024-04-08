@@ -2,6 +2,7 @@
 import config from "@config/config.json";
 import { getContent } from "@lib/contentParser.astro";
 import { getCategories } from "@lib/categoriesParser.astro";
+import MarkdownPostLayout from "../../../../layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
   const allCategories = await getCategories(config.settings.blog_folder);
@@ -25,4 +26,6 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<Content />
+<MarkdownPostLayout frontmatter={entry}>
+  <Content />
+</MarkdownPostLayout>
